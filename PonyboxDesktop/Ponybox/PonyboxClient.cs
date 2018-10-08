@@ -99,7 +99,7 @@ namespace PonyboxDesktop.Ponybox
 
         static string cb_url = "http://www.frenchy-ponies.fr/cb_new_window.php";
         //static string cb_address = "http://94.23.60.187:8080";
-        static string cb_address = "https://frenchy-ponies.fr:2096";
+        static string cb_address = "https://www.frenchy-ponies.fr:2096";
         static string cb_login = "https://www.frenchy-ponies.fr/ucp.php?mode=login";
 
         string token = "";
@@ -169,7 +169,7 @@ namespace PonyboxDesktop.Ponybox
                 });
 
                 string s = Encoding.Default.GetString(log_res);
-                File.WriteAllText(@"D:\Test.html",s);
+                //File.WriteAllText(@"D:\Test.html",s);
 
                 res = c.DownloadString("http://frenchy-ponies.fr/ponybox/pb-include.php");
                 Console.WriteLine(res);
@@ -191,6 +191,21 @@ namespace PonyboxDesktop.Ponybox
         {
             socket = IO.Socket(cb_address);
 
+            socket.On(Socket.EVENT_CONNECT_ERROR, (oError) =>
+            {
+                Console.WriteLine("On : {0} {1}", "EVENT_CONNECT_ERROR", oError.ToString());
+            });
+
+            socket.On(Socket.EVENT_CONNECT_TIMEOUT, (oError) =>
+            {
+                Console.WriteLine("On : {0} {1}", "EVENT_CONNECT_TIMEOUT", oError.ToString());
+            });
+
+            socket.On(Socket.EVENT_ERROR, (oError) =>
+            {
+                Console.WriteLine("On : {0} : {1}", "EVENT_ERROR", oError.ToString());
+            });
+
             socket.On(Socket.EVENT_CONNECT, () =>
             {
                 Console.WriteLine("On : {0}", "CONNECT");
@@ -202,15 +217,15 @@ namespace PonyboxDesktop.Ponybox
                     handler(this, new SocketConnectionEvent(true));
                 }
 
-                Console.WriteLine("Emit : {0}", "create");
+                Console.WriteLine("Emit : {0} {1} {2}", "create", int.Parse(id), token);
                 socket.Emit("create", new AckImpl((oReturn) =>
                 {
                     Console.WriteLine("Recieved ack from creation");
                     socket.Emit("login");
-                    //JoinChannel("general");
+                    JoinChannel("general");
 
                     Console.WriteLine(oReturn);
-                }), int.Parse(id), token);               
+                }), int.Parse(id), token);
             });
 
             socket.On(Socket.EVENT_DISCONNECT, () =>

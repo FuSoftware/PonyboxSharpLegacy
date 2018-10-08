@@ -34,21 +34,21 @@ namespace PonyboxDesktop
 
             client.LoadUser(res);
             client.LoadChatbox();
-            //client.Connect();
+            client.Connect();
 
             client.BindForm(this);
             client.BindMessageListCallback("UpdateMessages");
             client.BindMessageInsertCallback("InsertMessage");
             client.BindChannelListCallback("UpdateChannels");
 
-            client.RefreshChannelList();
-            client.JoinChannel("general");
+            //client.RefreshChannelList();
+            //client.JoinChannel("general");
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
             //client.SendMessage("general", textBoxMessage.Text, textBoxPM.Text);
-            client.SendMessage(currentChannel.GetName(), textBoxMessage.Text, textBoxPM.Text);
+            //client.SendMessage(currentChannel.GetName(), textBoxMessage.Text, textBoxPM.Text);
             textBoxMessage.Text = "";
         }
 

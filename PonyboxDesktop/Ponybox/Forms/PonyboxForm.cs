@@ -22,6 +22,8 @@ namespace PonyboxDesktop
         {
             InitializeComponent();
             client = new PonyboxClient();
+
+            /*
             LoginForm frm = new LoginForm();
 
             string res = "";
@@ -31,8 +33,12 @@ namespace PonyboxDesktop
 
                 res = PonyboxClient.LoadUser(frm.GetUser(), frm.GetPass());
             } while (res == "");
-
             client.LoadUser(res);
+            */
+
+            //client.SetUserData(542, "9fa06f4fe6183864037435842e646a5b92133c34"); Mitaka
+
+
             client.LoadChatbox();
             client.Connect();
 
@@ -41,8 +47,8 @@ namespace PonyboxDesktop
             client.BindMessageInsertCallback("InsertMessage");
             client.BindChannelListCallback("UpdateChannels");
 
-            //client.RefreshChannelList();
-            //client.JoinChannel("general");
+            client.RefreshChannelList();
+            client.JoinChannel("general");
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -84,7 +90,7 @@ namespace PonyboxDesktop
             Console.WriteLine("Updating Message List");
             List<Ponybox.Message> messages = client.GetMessages(channel);
 
-            if (channels.Count == 0 || channels[channel] == null)
+            if (channels.Count == 0 || !channels.ContainsKey(channel))
             {
                 CreateChannelTab(client.GetChannelList()[0]);
             }

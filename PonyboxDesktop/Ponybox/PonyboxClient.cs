@@ -151,6 +151,12 @@ namespace PonyboxDesktop.Ponybox
            Console.WriteLine("Loaded sid (" + sid + "), token (" + token + "), id (" + id + ")");
         }
 
+        public void SetUserData(int id, string token)
+        {
+            this.token = token;
+            this.id = id.ToString();
+        }
+
         public static dynamic LoadUser(string username, string password)
         {
             CookieAwareWebClient c = new CookieAwareWebClient();
@@ -265,6 +271,7 @@ namespace PonyboxDesktop.Ponybox
                     Console.WriteLine("On : {0}", "join-channel");
 
                     Channel c = new Channel(oChannel);
+                    //this.channels.Add(c);
 
                     Console.WriteLine("Channel " + c.GetLabel() + " joined");
 

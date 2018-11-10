@@ -271,7 +271,7 @@ namespace PonyboxDesktop.Ponybox
                     Console.WriteLine("On : {0}", "join-channel");
 
                     Channel c = new Channel(oChannel);
-                    //this.channels.Add(c);
+                    this.channels.Add(c);
 
                     Console.WriteLine("Channel " + c.GetLabel() + " joined");
 

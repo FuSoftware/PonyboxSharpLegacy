@@ -23,9 +23,10 @@ namespace PonyboxDesktop
             InitializeComponent();
             client = new PonyboxClient();
 
-            /*
+            
             LoginForm frm = new LoginForm();
 
+            /*
             string res = "";
             do
             {
@@ -36,8 +37,8 @@ namespace PonyboxDesktop
             client.LoadUser(res);
             */
 
-            //client.SetUserData(542, "9fa06f4fe6183864037435842e646a5b92133c34"); Mitaka
-
+            frm.ShowDialog();
+            client.SetUserData(int.Parse(frm.GetUser()), frm.GetPass());
 
             client.LoadChatbox();
             client.Connect();
@@ -54,7 +55,7 @@ namespace PonyboxDesktop
         private void buttonOK_Click(object sender, EventArgs e)
         {
             //client.SendMessage("general", textBoxMessage.Text, textBoxPM.Text);
-            //client.SendMessage(currentChannel.GetName(), textBoxMessage.Text, textBoxPM.Text);
+            client.SendMessage(currentChannel.GetName(), textBoxMessage.Text, textBoxPM.Text);
             textBoxMessage.Text = "";
         }
 
@@ -92,7 +93,14 @@ namespace PonyboxDesktop
 
             if (channels.Count == 0 || !channels.ContainsKey(channel))
             {
-                CreateChannelTab(client.GetChannelList()[0]);
+                if(client.GetChannelList().Count > 0)
+                {
+                    CreateChannelTab(client.GetChannelList().First());
+                }
+                else
+                {
+                    Console.WriteLine("No channel found while loading UI");
+                }
             }
 
             channels[channel].Invoke((MethodInvoker)delegate{ channels[channel].Items.Clear();});

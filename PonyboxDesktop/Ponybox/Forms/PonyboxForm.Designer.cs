@@ -38,6 +38,7 @@
             this.contextMenuStripChannels = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.joinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.leaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.contextMenuStripChannels.SuspendLayout();
@@ -61,7 +62,7 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnCount = 4;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
@@ -69,6 +70,7 @@
             this.tableLayoutPanel2.Controls.Add(this.textBoxMessage, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.buttonOK, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBoxPM, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button1, 3, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 404);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -82,13 +84,13 @@
             this.textBoxMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxMessage.Location = new System.Drawing.Point(103, 3);
             this.textBoxMessage.Name = "textBoxMessage";
-            this.textBoxMessage.Size = new System.Drawing.Size(462, 20);
+            this.textBoxMessage.Size = new System.Drawing.Size(442, 20);
             this.textBoxMessage.TabIndex = 0;
             // 
             // buttonOK
             // 
             this.buttonOK.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonOK.Location = new System.Drawing.Point(571, 3);
+            this.buttonOK.Location = new System.Drawing.Point(551, 3);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(44, 28);
             this.buttonOK.TabIndex = 1;
@@ -135,6 +137,16 @@
             this.leaveToolStripMenuItem.Text = "Leave";
             this.leaveToolStripMenuItem.Click += new System.EventHandler(this.leaveToolStripMenuItem_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(601, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(14, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "buttonTest";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // PonyboxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -162,5 +174,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripChannels;
         private System.Windows.Forms.ToolStripMenuItem joinToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leaveToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }

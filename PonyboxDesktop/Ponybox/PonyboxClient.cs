@@ -106,6 +106,8 @@ namespace PonyboxDesktop.Ponybox
         string sid = "";
         string id = "";
 
+        public bool RefreshInterface {get; set;}
+
         Socket socket;
 
         Form parentForm;
@@ -195,6 +197,7 @@ namespace PonyboxDesktop.Ponybox
 
         public void LoadChatbox(bool initListeners = true)
         {
+            RefreshInterface = true;
             socket = IO.Socket(cb_address);
 
             socket.On(Socket.EVENT_CONNECT_ERROR, (oError) =>
@@ -292,18 +295,21 @@ namespace PonyboxDesktop.Ponybox
                     Message m = new Message(oMessage);
                     AddMessage(m);
 
-                    if (MessageRecieved != null)
+                    if (RefreshInterface)
                     {
-                        EventHandler<Message> handler = MessageRecieved;
-                        handler(this, m);
-                    }
+                        if (MessageRecieved != null)
+                        {
+                            EventHandler<Message> handler = MessageRecieved;
+                            handler(this, m);
+                        }
 
 
-                    if (parentForm != null)
-                    {
-                        object[] p = new object[] { m.GetChannel() };
-                        callbackMessageInsert.Invoke(parentForm, p);
-                    }
+                        if (parentForm != null)
+                        {
+                            object[] p = new object[] { m.GetChannel() };
+                            callbackMessageInsert.Invoke(parentForm, p);
+                        }
+                    }                    
                 });
 
                 socket.On("channel-messages", (data) =>
@@ -433,6 +439,11 @@ namespace PonyboxDesktop.Ponybox
         public void DebanUser(int id)
         {
             socket.Emit("deban-user", id);
+        }
+
+        public void EditMessage(string channel, long message, string newMessage)
+        {
+            socket.Emit("edit-message", channel, message, newMessage);
         }
 
         public void SendMessage(string channel, string message, string to)

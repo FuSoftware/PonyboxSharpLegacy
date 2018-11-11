@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace PonyboxDesktop
             
             LoginForm frm = new LoginForm();
 
-            /*
+            
             string res = "";
             do
             {
@@ -35,10 +36,11 @@ namespace PonyboxDesktop
                 res = PonyboxClient.LoadUser(frm.GetUser(), frm.GetPass());
             } while (res == "");
             client.LoadUser(res);
-            */
-
+            
+            /*
             frm.ShowDialog();
             client.SetUserData(int.Parse(frm.GetUser()), frm.GetPass());
+            */
 
             client.LoadChatbox();
             client.Connect();
@@ -57,6 +59,26 @@ namespace PonyboxDesktop
             //client.SendMessage("general", textBoxMessage.Text, textBoxPM.Text);
             client.SendMessage(currentChannel.GetName(), textBoxMessage.Text, textBoxPM.Text);
             textBoxMessage.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            client.RefreshInterface = false;
+            int i = 0;
+            string r = "";
+            Thread t = new Thread(() =>
+            {
+                while (true)
+                {
+                    r += (r + i.ToString());
+                    client.SendMessage(currentChannel.GetName(), r, "Nacle");
+                    Thread.Sleep(10);
+                }
+                
+            });
+
+            t.Start();
+            
         }
 
         public void UpdateChannels()
@@ -78,7 +100,7 @@ namespace PonyboxDesktop
         public void InsertMessage(string channel)
         {
             Ponybox.Message m = client.GetMessages(channel).Last();
-            string[] items = new string[3] { m.GetSender().GetUsername(), m.GetMessage(), Functions.UnixTimeStampToDateTime(m.GetTimestamp()).ToString("yyy-MM-dd hh:mm:ss") };
+            string[] items = new string[4] { m.GetSender().GetUsername(), m.GetMessage(), Functions.UnixTimeStampToDateTime(m.GetTimestamp()).ToString("yyy-MM-dd hh:mm:ss"), m.GetID().ToString() };
             ListViewItem lvi = new ListViewItem(items);
             channels[channel].Invoke((MethodInvoker)delegate
             {
@@ -129,6 +151,7 @@ namespace PonyboxDesktop
                 lv.Columns.Add("User");
                 lv.Columns.Add("Message");
                 lv.Columns.Add("Heure");
+                lv.Columns.Add("ID");
                 lv.View = View.Details;
                 lv.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
                 tabControlChannels.TabPages.Add(c.GetName(),c.GetLabel());
